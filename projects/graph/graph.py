@@ -37,10 +37,14 @@ class Graph:
         """
         # make a queue
         q = Queue()
-        # enqueue first node
-        q.enqueue(starting_vertex)
+        
         # make a set to track visited nodes
         visited = set()
+        
+        # enqueue first node
+        q.enqueue(starting_vertex)
+        
+       
         # while queue still has things in it
         while q.size() > 0:
         # dequeue from front os the line, this is the current node
@@ -55,7 +59,7 @@ class Graph:
         # iterate over neighbors
             for neighbor in neighbors:
         # add the queue
-                q.enqueue(neighbors)
+                q.enqueue(neighbor)
                 
     def dft(self, starting_vertex):
         """
@@ -75,7 +79,8 @@ class Graph:
                 for neighbor in neighbors:
                     s.push(neighbor)
 
-    def dft_recursive(self, starting_vertex):
+    def dft_recursive(self, starting_vertex, visited="None"):
+        
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
@@ -84,9 +89,16 @@ class Graph:
         """
         # base case 
         # has to call it self toward base case
+        if visited == None:
+            visited = set()
+        if starting_vertex not in visited:
+            visited.add(starting_vertex)
+            print(starting_vertex)
         neighbors = self.get_neighbors(starting_vertex)
         if len(neighbors) == 0:
-                return
+                return visited
+        for neighbor in neighbors:
+            self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -94,7 +106,23 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        path = [starting_vertex]
+        q.enqueue(path)
+        while q.size() > 0:
+            curent_path = q.dequeue()
+            curent_node = current_path[-1]
+            if current_node == destination_vertex:
+                return curent_path
+            
+            if current_node not in visited:
+                visited.add(current_node)
+                neighbors = self.get_neighbors(current_node)
+                
+            for neighbor in neighbors:
+                neighbor_path = curent_path.copy()
+                neighbor_path = path.append(neighbor)
+                q.enqueue(neighbor_path)
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -102,9 +130,22 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        s = Stack()
+        visited = set()
+        s.push(starting_vertex)
+        
+        while s.size( )> 0:
+            current_node = s.pop()
+            current_path = current_path[starting_vertex]
+            current_vertex = current_node[starting_vertex]
+            if current_node not in visited:
+                visited.add(current_node)
+                print(current_node)
+                neighbors = self.get_neighbors(current_node)
+                for neighbor in neighbors:
+                    s.push(neighbor)
 
-    def dfs_recursive(self, starting_vertex, destination_vertex):
+    def dfs_recursive(self, starting_vertex, target_value, visited=None, path=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -112,7 +153,24 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        if visited is None:
+            visited = set()
+            
+        if path is None:
+            path = []
+            
+        visited.add(starting_vertex)
+        path = path + [starting_vertex]
+        if starting_vertex == target_value:
+            return path
+        
+        for child_vertex in self.get_neighbors(starting_vertex):
+                if child_vertex not in visited:
+                    new_path = self.dfs_recursive(child_vertex, target_value, visited, path)
+                if new_path:
+                    return new_path
+        return None
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph

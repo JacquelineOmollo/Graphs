@@ -41,14 +41,18 @@ Now that you have a graph full of users and friendships, you can crawl through t
 ```
 Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social network.
 
-* Hint 1: What kind of graph search guarantees you a shortest path?
+* Hint 1: What kind of graph search guarantees you a shortest path? 
 * Hint 2: Instead of using a `set` to mark users as visited, you could use a `dictionary`. Similar to sets, checking if something is in a dictionary runs in O(1) time. If the visited user is the key, what would the value be?
 
 ## 3. Questions
 
 1. To create 100 users with an average of 10 friends each, how many times would you need to call `add_friendship()`? Why?
 
+1000/ 100 = 10 add_friendship() can call two at a time. So the answer is 500.
+
 2. If you create 1000 users with an average of 5 random friends each, what percentage of other users will be in a particular user's extended social network? What is the average degree of separation between a user and those in his/her extended network?
+ 
+ run it and count how many friends are in dic and devid it. Add up the len of path and get the average
 
 
 
